@@ -1,0 +1,49 @@
+<div class="card">
+  <h1>Administration</h1>
+  <div class="grid">
+    <div>
+      <label>Status Filter</label>
+      <select ng-model="filter.status">
+        <option value="">All</option>
+        <option>submitted</option>
+        <option>in_review</option>
+        <option>accepted</option>
+        <option>in_progress</option>
+        <option>resolved</option>
+        <option>rejected</option>
+      </select>
+    </div>
+    <div>
+      <label>Category</label>
+      <select ng-model="filter.category">
+        <option value="">All</option>
+        <option>services</option>
+        <option>policy</option>
+        <option>infrastructure</option>
+        <option>other</option>
+      </select>
+    </div>
+    <div style="align-self:end"><button ng-click="load()">Apply</button></div>
+  </div>
+</div>
+
+<div class="table">
+  <div class="row" ng-repeat="it in items">
+    <div><strong>{{it.title}}</strong><div class="pill">{{it.userEmail || 'anonymous'}}</div></div>
+    <div>{{it.description}}</div>
+    <div>{{it.category}}</div>
+    <div>
+      <select ng-model="it.status" ng-change="update(it)">
+        <option>submitted</option>
+        <option>in_review</option>
+        <option>accepted</option>
+        <option>in_progress</option>
+        <option>resolved</option>
+        <option>rejected</option>
+      </select>
+    </div>
+    <div>{{it.createdAt | date:'medium'}}</div>
+  </div>
+</div>
+
+

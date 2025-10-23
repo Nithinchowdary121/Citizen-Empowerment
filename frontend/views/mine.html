@@ -1,0 +1,42 @@
+<div class="grid">
+  <div class="card">
+    <h1>Submit a New Suggestion</h1>
+    <label>Title</label>
+    <input ng-model="form.title" placeholder="Short title" />
+    <label>Category</label>
+    <select ng-model="form.category">
+      <option value="services">Public Services</option>
+      <option value="policy">Policy</option>
+      <option value="infrastructure">Infrastructure</option>
+      <option value="other">Other</option>
+    </select>
+    <label>Message</label>
+    <textarea ng-model="form.description" rows="4" placeholder="Describe your suggestion"></textarea>
+    <label>Email (to track later)</label>
+    <input ng-model="form.userEmail" type="email" placeholder="you@example.com" />
+    <div style="margin-top:10px"><button ng-click="submitMine()">Submit</button></div>
+  </div>
+</div>
+
+<div class="card" ng-if="items.length===0" style="margin-top:10px">
+  <strong>No saved suggestions yet.</strong>
+  <div>After you submit, your suggestions will appear here automatically.</div>
+  <div style="margin-top:10px"><a href="#/submit"><button class="secondary">Submit one</button></a></div>
+</div>
+
+<div ng-repeat="it in items" class="row">
+  <div><strong>{{it.title}}</strong></div>
+  <div>{{it.description}}</div>
+  <div>{{it.category}}</div>
+  <div><select ng-model="it.status" disabled>
+    <option>submitted</option>
+    <option>in_review</option>
+    <option>accepted</option>
+    <option>in_progress</option>
+    <option>resolved</option>
+    <option>rejected</option>
+  </select></div>
+  <div>{{it.createdAt | date:'medium'}}</div>
+</div>
+
+

@@ -1,0 +1,23 @@
+<div class="card">
+  <h1>Submit Feedback</h1>
+  <p>Provide details about your suggestion or issue. We'll route it to the right department.</p>
+  <form ng-submit="submit()">
+    <label>Title</label>
+    <input ng-model="form.title" placeholder="Short title" required />
+    <label>Description</label>
+    <textarea ng-model="form.description" rows="5" placeholder="Describe your feedback" required></textarea>
+    <label>Category</label>
+    <select ng-model="form.category">
+      <option value="services">Public Services</option>
+      <option value="policy">Policy</option>
+      <option value="infrastructure">Infrastructure</option>
+      <option value="other">Other</option>
+    </select>
+    <label>Email (optional)</label>
+    <input ng-model="form.userEmail" type="email" placeholder="you@example.com" />
+    <div style="margin-top:14px"><button type="submit">Submit</button></div>
+  </form>
+  <div ng-if="submitted" style="margin-top:16px" class="pill">Submitted! Track status in "My Suggestions".</div>
+</div>
+
+

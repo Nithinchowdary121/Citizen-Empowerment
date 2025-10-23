@@ -1,0 +1,28 @@
+<div class="card">
+  <h1>My Suggestions</h1>
+  <p>Enter the email you used while submitting feedback to see status updates.</p>
+  <div class="grid">
+    <div>
+      <label>Email</label>
+      <input ng-model="email" type="email" placeholder="you@example.com" />
+      <div style="margin-top:10px"><button ng-click="search()">Search</button></div>
+    </div>
+  </div>
+</div>
+
+<div ng-repeat="it in items" class="row">
+  <div><strong>{{it.title}}</strong></div>
+  <div>{{it.description}}</div>
+  <div><span class="status">{{it.category}}</span></div>
+  <div><select ng-model="it.status" disabled>
+    <option>submitted</option>
+    <option>in_review</option>
+    <option>accepted</option>
+    <option>in_progress</option>
+    <option>resolved</option>
+    <option>rejected</option>
+  </select></div>
+  <div>{{it.createdAt | date:'medium'}}</div>
+</div>
+
+

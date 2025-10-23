@@ -1,0 +1,13 @@
+{
+  "name": "citizen-voice-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "lite-server --baseDir=. --port=5173"
+  },
+  "devDependencies": {
+    "lite-server": "^2.6.1"
+  }
+}
+
+

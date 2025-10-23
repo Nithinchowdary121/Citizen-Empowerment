@@ -1,0 +1,490 @@
+<div class="survey-container">
+  <!-- Survey Response Tab Navigation -->
+  <div class="tab-navigation">
+    <button class="tab-btn" ng-class="{'active': activeTab === 'participate'}" ng-click="setActiveTab('participate')">
+      <i class="fas fa-poll"></i> Participate
+    </button>
+    <button class="tab-btn" ng-class="{'active': activeTab === 'results'}" ng-click="setActiveTab('results')">
+      <i class="fas fa-chart-bar"></i> View Results
+    </button>
+  </div>
+
+  <!-- Participate in Surveys Tab -->
+  <div class="tab-content" ng-show="activeTab === 'participate'">
+    <div class="card">
+      <div class="card-header">
+        <h1>Active Surveys</h1>
+        <p class="sub">Share your opinion on community matters</p>
+      </div>
+      
+      <div ng-if="surveys.length === 0" class="empty-state">
+        <div class="empty-icon">📊</div>
+        <h3>No Active Surveys</h3>
+        <p>There are currently no active surveys. Please check back later.</p>
+      </div>
+      
+      <div ng-repeat="s in surveys" class="survey-card">
+        <div class="survey-header">
+          <h2>{{s.title}}</h2>
+          <span class="survey-badge">{{s.questions.length}} Questions</span>
+        </div>
+        
+        <div class="survey-progress">
+          <div class="progress-bar">
+            <div class="progress-fill" ng-style="{ width: getCompletionPercentage(s) + '%' }"></div>
+          </div>
+          <span class="progress-text">{{getCompletionPercentage(s)}}% Complete</span>
+        </div>
+        
+        <div class="survey-questions">
+          <div ng-repeat="q in s.questions track by $index" class="question-item">
+            <label class="question-label">{{$index+1}}. {{q.prompt}}</label>
+            
+            <!-- Text input -->
+            <input 
+              ng-if="q.type==='text'" 
+              class="form-control"
+              ng-model="answer[s._id+':'+$index]" 
+              placeholder="Your answer" 
+            />
+            
+            <!-- Rating input with visual stars -->
+            <div ng-if="q.type==='rating'" class="rating-input">
+              <div class="star-rating">
+                <span 
+                  ng-repeat="star in [1,2,3,4,5]" 
+                  class="star" 
+                  ng-class="{'active': answer[s._id+':'+$index] >= star}"
+                  ng-click="answer[s._id+':'+$index] = star"
+                >★</span>
+              </div>
+              <span class="rating-value" ng-show="answer[s._id+':'+$index]">{{answer[s._id+':'+$index]}}/5</span>
+            </div>
+            
+            <!-- Choice input -->
+            <select 
+              ng-if="q.type==='choice'" 
+              class="form-control"
+              ng-model="answer[s._id+':'+$index]"
+            >
+              <option value="">-- Select an option --</option>
+              <option ng-repeat="o in q.options" value="{{o}}">{{o}}</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="survey-actions">
+          <button class="btn-primary" ng-click="respond(s)" ng-disabled="!canSubmitSurvey(s)">
+            Submit Response
+          </button>
+          <button class="btn-secondary" ng-click="resetSurvey(s)">Reset</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Survey Results Tab -->
+  <div class="tab-content" ng-show="activeTab === 'results'">
+    <div class="card">
+      <div class="card-header">
+        <h1>Survey Results</h1>
+        <p class="sub">View community responses and insights</p>
+      </div>
+      
+      <div class="survey-selector" ng-if="surveys.length > 0">
+        <label>Select Survey:</label>
+        <select class="form-control" ng-model="selectedSurveyId" ng-change="loadSurveyResults()">
+          <option value="">-- Select a survey --</option>
+          <option ng-repeat="s in surveys" value="{{s._id}}">{{s.title}}</option>
+        </select>
+      </div>
+      
+      <div ng-if="!selectedSurveyId" class="empty-state">
+        <div class="empty-icon">📈</div>
+        <h3>Select a Survey</h3>
+        <p>Please select a survey from the dropdown to view its results.</p>
+      </div>
+      
+      <div ng-if="selectedSurveyId && !isLoadingResults" class="survey-results">
+        <div class="results-header">
+          <h2>{{getSelectedSurvey().title}} Results</h2>
+          <div class="results-meta">
+            <span class="results-badge">{{surveyResponses.length}} Responses</span>
+            <button class="btn-secondary" ng-click="exportResults()">
+              <i class="fas fa-download"></i> Export
+            </button>
+          </div>
+        </div>
+        
+        <div class="results-summary">
+          <div class="summary-card">
+            <div class="summary-value">{{surveyResponses.length}}</div>
+            <div class="summary-label">Total Responses</div>
+          </div>
+          <div class="summary-card">
+            <div class="summary-value">{{getAverageCompletionTime()}}</div>
+            <div class="summary-label">Avg. Completion Time</div>
+          </div>
+          <div class="summary-card">
+            <div class="summary-value">{{getResponseRate()}}%</div>
+            <div class="summary-label">Response Rate</div>
+          </div>
+        </div>
+        
+        <div ng-repeat="q in getSelectedSurvey().questions track by $index" class="question-result">
+          <h3 class="question-title">Q{{$index+1}}: {{q.prompt}}</h3>
+          
+          <!-- Text responses -->
+          <div ng-if="q.type==='text'" class="text-responses">
+            <div ng-repeat="response in getResponsesForQuestion($index)" class="text-response">
+              <div class="response-content">{{response}}</div>
+            </div>
+            <div ng-if="getResponsesForQuestion($index).length === 0" class="no-responses">
+              No responses yet
+            </div>
+          </div>
+          
+          <!-- Rating visualization -->
+          <div ng-if="q.type==='rating'" class="rating-results">
+            <div class="rating-chart">
+              <div ng-repeat="count in getRatingDistribution($index)" class="rating-bar">
+                <div class="rating-label">{{$index+1}} ★</div>
+                <div class="rating-bar-container">
+                  <div class="rating-bar-fill" ng-style="{width: (count / getMaxRatingCount($index) * 100) + '%'}"></div>
+                </div>
+                <div class="rating-count">{{count}}</div>
+              </div>
+            </div>
+            <div class="rating-average">
+              Average Rating: <strong>{{getAverageRating($index) | number:1}}</strong>
+            </div>
+          </div>
+          
+          <!-- Choice visualization -->
+          <div ng-if="q.type==='choice'" class="choice-results">
+            <div class="choice-chart">
+              <div ng-repeat="option in q.options" class="choice-item">
+                <div class="choice-label">{{option}}</div>
+                <div class="choice-bar-container">
+                  <div class="choice-bar-fill" ng-style="{width: (getChoicePercentage($index, option) + '%')}"></div>
+                </div>
+                <div class="choice-percentage">{{getChoicePercentage($index, option)}}%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div ng-if="isLoadingResults" class="loading-state">
+        <div class="spinner"></div>
+        <p>Loading survey results...</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .survey-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .tab-navigation {
+    display: flex;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  
+  .tab-btn {
+    padding: 12px 24px;
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    color: var(--text-muted);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .tab-btn.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+  }
+  
+  .survey-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: var(--card-shadow);
+  }
+  
+  .survey-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .survey-header h2 {
+    margin: 0;
+    font-size: 1.4rem;
+  }
+  
+  .survey-badge {
+    background: var(--primary-light);
+    color: var(--primary);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+  
+  .survey-progress {
+    margin-bottom: 20px;
+  }
+  
+  .progress-bar {
+    height: 8px;
+    background: var(--background);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  
+  .progress-fill {
+    height: 100%;
+    background: var(--primary);
+    transition: width 0.3s ease;
+  }
+  
+  .progress-text {
+    display: block;
+    text-align: right;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 5px;
+  }
+  
+  .question-item {
+    margin-bottom: 20px;
+  }
+  
+  .question-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  
+  .rating-input {
+    display: flex;
+    align-items: center;
+  }
+  
+  .star-rating {
+    display: flex;
+    margin-right: 10px;
+  }
+  
+  .star {
+    font-size: 24px;
+    color: var(--border);
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+  
+  .star.active {
+    color: #FFD700;
+  }
+  
+  .rating-value {
+    font-weight: 600;
+  }
+  
+  .survey-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  /* Results Tab Styles */
+  .survey-selector {
+    margin-bottom: 20px;
+  }
+  
+  .results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .results-meta {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .results-badge {
+    background: var(--success-light);
+    color: var(--success);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+  
+  .results-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+  }
+  
+  .summary-card {
+    background: var(--card-bg);
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: var(--card-shadow);
+  }
+  
+  .summary-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 5px;
+  }
+  
+  .summary-label {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+  
+  .question-result {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  
+  .question-title {
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+  }
+  
+  .text-responses {
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  
+  .text-response {
+    background: var(--background);
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+  
+  .rating-chart, .choice-chart {
+    margin-top: 15px;
+  }
+  
+  .rating-bar, .choice-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  
+  .rating-label, .choice-label {
+    width: 60px;
+    font-size: 0.9rem;
+  }
+  
+  .rating-bar-container, .choice-bar-container {
+    flex: 1;
+    height: 20px;
+    background: var(--background);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 0 15px;
+  }
+  
+  .rating-bar-fill {
+    height: 100%;
+    background: #FFD700;
+  }
+  
+  .choice-bar-fill {
+    height: 100%;
+    background: var(--primary);
+  }
+  
+  .rating-count, .choice-percentage {
+    width: 40px;
+    text-align: right;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+  
+  .rating-average {
+    text-align: right;
+    margin-top: 10px;
+    font-size: 0.9rem;
+  }
+  
+  .empty-state {
+    text-align: center;
+    padding: 40px 20px;
+  }
+  
+  .empty-icon {
+    font-size: 48px;
+    margin-bottom: 15px;
+  }
+  
+  .loading-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+  }
+  
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top-color: var(--primary);
+    animation: spin 1s linear infinite;
+    margin-bottom: 15px;
+  }
+  
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  
+  @media (max-width: 768px) {
+    .results-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    
+    .results-summary {
+      grid-template-columns: 1fr;
+    }
+    
+    .rating-bar, .choice-item {
+      flex-wrap: wrap;
+    }
+    
+    .rating-label, .choice-label {
+      width: 100%;
+      margin-bottom: 5px;
+    }
+    
+    .rating-bar-container, .choice-bar-container {
+      margin: 0 0 5px 0;
+    }
+  }
+</style>
+
+

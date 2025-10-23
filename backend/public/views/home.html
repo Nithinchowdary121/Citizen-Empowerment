@@ -1,0 +1,32 @@
+<section class="hero">
+  <div class="card">
+    <span class="pill">Public Sector • Platform and Portal</span>
+    <h1>Empowering Citizens to Shape Public Services</h1>
+    <p>Share feedback, participate in surveys, and track the status of your suggestions. Transparent, structured, and community-driven.</p>
+    <div style="margin-top:14px">
+      <a href="#/submit"><button>Submit Feedback</button></a>
+      <a href="#/surveys"><button class="secondary" style="margin-left:8px">Take a Survey</button></a>
+    </div>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <div><strong>Total Suggestions</strong></div>
+      <div style="font-size:28px;margin-top:6px">{{metrics.total || 0}}</div>
+    </div>
+    <div class="card">
+      <div><strong>Status Breakdown</strong></div>
+      <ul>
+        <li ng-repeat="s in metrics.byStatus">{{s._id}} — {{s.count}}</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div><strong>By Category</strong></div>
+      <ul>
+        <li ng-repeat="c in metrics.byCategory">{{c._id}} — {{c.count}}</li>
+      </ul>
+    </div>
+  </div>
+</section>
+<footer>Built for lab presentation • Node + Mongo + AngularJS</footer>
+
+

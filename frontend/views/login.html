@@ -1,0 +1,39 @@
+<section class="full">
+  <div class="card" style="width:100%;max-width:520px">
+    <div class="huge">Welcome to Citizen Voice</div>
+    <div class="sub">Your platform for community feedback and engagement</div>
+    
+    <form ng-submit="login()" name="loginForm" novalidate>
+      <div class="form-group">
+        <label>Role</label>
+        <select ng-model="role" class="form-control" required>
+          <option value="citizen">Citizen</option>
+          <option value="admin">Admin</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label>Email</label>
+        <input ng-model="form.email" placeholder="you@example.com" type="email" class="form-control" required ng-class="{'input-error': loginForm.email.$invalid && loginForm.email.$touched}" name="email" />
+        <div class="error-message" ng-show="loginForm.email.$touched && loginForm.email.$invalid">
+          Please enter a valid email address
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label>Password</label>
+        <input ng-model="form.password" placeholder="Enter password" type="password" class="form-control" required ng-minlength="4" name="password" />
+        <div class="error-message" ng-show="loginForm.password.$touched && loginForm.password.$invalid">
+          Password must be at least 4 characters
+        </div>
+      </div>
+      
+      <div class="form-actions">
+        <button type="submit" class="btn-primary" ng-disabled="loginForm.$invalid">Login</button>
+        <span class="pill error-pill" ng-if="error">{{error}}</span>
+      </div>
+    </form>
+  </div>
+</section>
+
+

@@ -1,0 +1,22 @@
+<section class="card">
+  <span class="pill">Feature</span>
+  <h1>Dashboards & Reports</h1>
+  <p>Measure engagement and resolution performance with live metrics from the backend.</p>
+  <div class="grid" ng-init="ready=true">
+    <div class="card">
+      <strong>Live Counters</strong>
+      <div>Total suggestions: {{metrics.total || 0}}</div>
+      <div style="margin-top:8px"><a href="#/">View full dashboard</a></div>
+    </div>
+    <div class="card">
+      <strong>By Status</strong>
+      <ul><li ng-repeat="s in metrics.byStatus">{{s._id}} — {{s.count}}</li></ul>
+    </div>
+    <div class="card">
+      <strong>By Category</strong>
+      <ul><li ng-repeat="c in metrics.byCategory">{{c._id}} — {{c.count}}</li></ul>
+    </div>
+  </div>
+</section>
+
+

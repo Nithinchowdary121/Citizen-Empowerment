@@ -1,0 +1,45 @@
+<div class="grid">
+  <div class="card">
+    <h1>Active Surveys</h1>
+    <div ng-repeat="s in surveys" class="card" style="margin-top:10px">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <strong>{{s.title}}</strong>
+        <button class="secondary" ng-click="respond(s)">Submit Response</button>
+      </div>
+      <div ng-repeat="q in s.questions track by $index" style="margin-top:10px">
+        <label>{{$index+1}}. {{q.prompt}}</label>
+        <input ng-if="q.type==='text'" ng-model="answer[s._id+':'+$index]" placeholder="Your answer" />
+        <input ng-if="q.type==='rating'" type="number" min="1" max="5" ng-model="answer[s._id+':'+$index]" />
+        <select ng-if="q.type==='choice'" ng-model="answer[s._id+':'+$index]">
+          <option ng-repeat="o in q.options" value="{{o}}">{{o}}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <h1>Create Survey (Admin)</h1>
+    <label>Title</label>
+    <input ng-model="newSurvey.title" placeholder="Survey title" />
+    <div ng-repeat="q in newSurvey.questions track by $index" class="card" style="margin-top:8px">
+      <label>Prompt</label>
+      <input ng-model="q.prompt" />
+      <label>Type</label>
+      <select ng-model="q.type">
+        <option value="text">Text</option>
+        <option value="rating">Rating (1-5)</option>
+        <option value="choice">Multiple Choice</option>
+      </select>
+      <label ng-if="q.type==='choice'">Options (comma separated)</label>
+      <input ng-if="q.type==='choice'" ng-model="q.optionsCsv" placeholder="Yes,No,Maybe" />
+      <div ng-init="q.$watch= q.$watch || (q.options = [])"></div>
+      <script type="text/ng-template">ignore</script>
+      <div ng-if="q.optionsCsv" ng-init="q.options = q.optionsCsv.split(',').map(Function.prototype.call, String.prototype.trim)"></div>
+    </div>
+    <div style="margin-top:8px">
+      <button class="secondary" ng-click="addQuestion()">Add Question</button>
+      <button style="margin-left:8px" ng-click="create()">Create Survey</button>
+    </div>
+  </div>
+</div>
+
+

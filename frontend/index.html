@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Citizen Voice (Frontend Dev)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular-route.min.js"></script>
+  </head>
+  <body ng-app="cvApp">
+    <nav class="navbar">
+      <div class="brand">Citizen Voice</div>
+      <a href="#/" class="nav">Login</a>
+      <a href="#/home" class="nav">Home</a>
+      <a href="#/dashboard" class="nav">Dashboard</a>
+      <a href="#/submit" class="nav">Submit Feedback</a>
+      <a href="#/surveys" class="nav">Surveys</a>
+      <a href="#/mine" class="nav">My Suggestions</a>
+      <a href="#/admin" class="nav">Admin</a>
+    </nav>
+    <main ng-view class="container"></main>
+
+    <script src="app.js"></script>
+  </body>
+  </html>
+
+
