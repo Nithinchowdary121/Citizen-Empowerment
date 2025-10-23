@@ -1,141 +1,22 @@
 <div class="card">
-  <div class="card-header">
-    <h1>Submit Your Feedback</h1>
-    <p class="sub">Help us improve your community by sharing your suggestions</p>
-  </div>
-  
-  <form name="feedbackForm" ng-submit="submit()" novalidate>
-    <div class="form-group">
-      <label>Title <span class="required">*</span></label>
-      <input 
-        ng-model="form.title" 
-        name="title"
-        class="form-control" 
-        ng-class="{'input-error': feedbackForm.title.$invalid && feedbackForm.title.$touched}"
-        required 
-        placeholder="Brief summary of your feedback" 
-      />
-      <div class="error-message" ng-show="feedbackForm.title.$touched && feedbackForm.title.$invalid">
-        Please provide a title for your feedback
-      </div>
-    </div>
-    
-    <div class="form-group">
-      <label>Description <span class="required">*</span></label>
-      <textarea 
-        ng-model="form.description" 
-        name="description"
-        class="form-control" 
-        rows="5" 
-        required 
-        ng-class="{'input-error': feedbackForm.description.$invalid && feedbackForm.description.$touched}"
-        placeholder="Please provide details about your feedback or suggestion"
-        minlength="10"
-      ></textarea>
-      <div class="error-message" ng-show="feedbackForm.description.$touched && feedbackForm.description.$error.required">
-        Please provide a description
-      </div>
-      <div class="error-message" ng-show="feedbackForm.description.$touched && feedbackForm.description.$error.minlength">
-        Description should be at least 10 characters
-      </div>
-      <div class="character-count" ng-class="{'text-danger': form.description.length > 500}">
-        {{form.description.length || 0}}/500 characters
-      </div>
-    </div>
-    
-    <div class="form-group">
-      <label>Category <span class="required">*</span></label>
-      <select 
-        ng-model="form.category" 
-        name="category"
-        class="form-control" 
-        required
-      >
-        <option value="services">Public Services</option>
-        <option value="policy">Policy</option>
-        <option value="infrastructure">Infrastructure</option>
-        <option value="other">Other</option>
-      </select>
-    </div>
-    
-    <div class="form-group">
-      <label>Email</label>
-      <input 
-        ng-model="form.userEmail" 
-        name="email"
-        type="email" 
-        class="form-control"
-        ng-class="{'input-error': feedbackForm.email.$invalid && feedbackForm.email.$touched}"
-        placeholder="your@email.com (optional, but allows us to follow up)" 
-      />
-      <div class="error-message" ng-show="feedbackForm.email.$touched && feedbackForm.email.$invalid">
-        Please enter a valid email address
-      </div>
-    </div>
-    
-    <div class="form-actions">
-      <button type="submit" class="btn-primary" ng-disabled="feedbackForm.$invalid">Submit Feedback</button>
-      <button type="button" class="btn-secondary" ng-click="resetForm()">Reset</button>
-    </div>
+  <h1>Submit Feedback</h1>
+  <form ng-submit="submit()">
+    <label>Title</label>
+    <input ng-model="form.title" required />
+    <label>Description</label>
+    <textarea ng-model="form.description" rows="5" required></textarea>
+    <label>Category</label>
+    <select ng-model="form.category">
+      <option value="services">Public Services</option>
+      <option value="policy">Policy</option>
+      <option value="infrastructure">Infrastructure</option>
+      <option value="other">Other</option>
+    </select>
+    <label>Email (optional)</label>
+    <input ng-model="form.userEmail" type="email" />
+    <div style="margin-top:14px"><button type="submit">Submit</button></div>
   </form>
-  
-  <div class="success-message" ng-if="submitted">
-    <div class="success-icon">✓</div>
-    <div class="success-content">
-      <h3>Thank you for your feedback!</h3>
-      <p>Your submission has been received and will be reviewed by our team.</p>
-      <button class="btn-primary" ng-click="submitAnother()">Submit Another</button>
-    </div>
-  </div>
+  <div ng-if="submitted" class="pill" style="margin-top:12px">Submitted!</div>
 </div>
-
-<style>
-  .required {
-    color: var(--danger);
-  }
-  
-  .character-count {
-    text-align: right;
-    font-size: 12px;
-    color: var(--muted);
-    margin-top: 4px;
-  }
-  
-  .text-danger {
-    color: var(--danger);
-  }
-  
-  .success-message {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-top: 24px;
-    padding: 20px;
-    background: rgba(76,175,80,.1);
-    border: 1px solid rgba(76,175,80,.3);
-    border-radius: 12px;
-  }
-  
-  .success-icon {
-    font-size: 32px;
-    color: var(--success);
-    background: rgba(76,175,80,.2);
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .success-content h3 {
-    margin: 0 0 8px;
-    color: var(--success);
-  }
-  
-  .success-content p {
-    margin: 0 0 16px;
-  }
-</style>
 
 
