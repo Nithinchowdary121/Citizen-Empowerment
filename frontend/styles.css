@@ -1,11 +1,14 @@
-:root{--primary:#1e88e5;--accent:#ff8f00;--bg:#0b1020;--card:#121833;--text:#e6ecff;--muted:#9fb3ff}
+:root{--primary:#27ae60;--accent:#f39c12;--bg:#f5f7fa;--card:#ffffff;--text:#484141;--muted:#6c757d;--border:#e0e0e0;--footer:#2c3e50}
 *{box-sizing:border-box}
-body{margin:0;font-family:'Inter',system-ui,Segoe UI,Roboto,Arial,sans-serif;background:radial-gradient(1200px 600px at 80% -100px,rgba(30,136,229,.25),transparent),linear-gradient(180deg,#0b1020,#0b1020);color:var(--text)}
+body{margin:0;font-family:'Inter',system-ui,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}
 .full{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
-.navbar{position:sticky;top:0;display:flex;gap:16px;align-items:center;padding:14px 22px;background:rgba(18,24,51,.8);backdrop-filter:saturate(140%) blur(8px);border-bottom:1px solid rgba(159,179,255,.15);z-index:10}
-.brand{font-weight:700;color:#fff;margin-right:auto}
-.nav{color:var(--muted);text-decoration:none;padding:6px 10px;border-radius:8px}
-.nav:hover{background:rgba(159,179,255,.12);color:#fff}
+.announcement-bar{background-color:#2c3e50;color:white;padding:8px 0;font-size:14px;text-align:center}
+.navbar{position:sticky;top:0;display:flex;gap:16px;align-items:center;padding:14px 22px;background:white;box-shadow:0 2px 10px rgba(0,0,0,0.1);z-index:10}
+.brand{font-weight:700;color:#333;margin-right:auto;display:flex;align-items:center;gap:10px}
+.city-logo{height:40px;width:auto}
+.nav-links{display:flex;gap:16px}
+.nav{color:var(--muted);text-decoration:none;padding:6px 10px;border-radius:4px;font-weight:500}
+.nav:hover{background:rgba(39,174,96,0.1);color:var(--primary)}
 .container{max-width:1000px;margin:28px auto;padding:0 20px}
 .hero{display:grid;grid-template-columns:1.3fr 1fr;gap:24px;align-items:center}
 .card{background:var(--card);border:1px solid rgba(159,179,255,.15);border-radius:16px;padding:22px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
@@ -25,7 +28,16 @@ button.secondary{background:transparent;border:1px solid rgba(159,179,255,.25);c
 .table{width:100%;border-collapse:separate;border-spacing:0 10px}
 .table th{color:var(--muted);font-weight:600;text-align:left;padding:0 10px}
 .row{display:grid;grid-template-columns:1.2fr 2fr 120px 140px 120px;gap:10px;align-items:center;background:var(--card);border:1px solid rgba(159,179,255,.15);border-radius:12px;padding:12px;margin:10px 0}
-footer{opacity:.7;margin:30px 0;text-align:center}
+footer{background-color:var(--footer);color:white;padding:30px 0;margin-top:40px}
+.footer-content{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:30px;margin-bottom:20px}
+.footer-section h3{margin-top:0;margin-bottom:15px;font-size:18px}
+.footer-section ul{list-style:none;padding:0;margin:0}
+.footer-section ul li{margin-bottom:8px}
+.footer-section a{color:white;text-decoration:none}
+.footer-section a:hover{text-decoration:underline}
+.social-links{display:flex;gap:10px;margin-top:10px}
+.social-links a{display:inline-block;width:30px;height:30px;background:rgba(255,255,255,0.1);border-radius:50%;text-align:center;line-height:30px}
+.footer-bottom{border-top:1px solid rgba(255,255,255,0.1);padding-top:20px;text-align:center;font-size:14px}
 @media (max-width:900px){.hero{grid-template-columns:1fr}.row{grid-template-columns:1fr}}
 
 /* extras for feature list */

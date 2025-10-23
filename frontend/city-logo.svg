@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="60" viewBox="0 0 120 60">
+  <defs>
+    <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#3498db;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2980b9;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- City Shield Background -->
+  <path d="M60,5 L100,15 L100,35 C100,50 80,55 60,55 C40,55 20,50 20,35 L20,15 Z" fill="url(#skyGradient)" />
+  
+  <!-- City Skyline -->
+  <path d="M35,30 L35,45 L40,45 L40,35 L45,35 L45,45 L50,45 L50,30 L55,25 L60,30 L65,25 L70,30 L70,45 L75,45 L75,35 L80,35 L80,45 L85,45 L85,30 Z" fill="#1a5276" />
+  
+  <!-- Sun -->
+  <circle cx="60" cy="20" r="8" fill="#f1c40f" />
+  
+  <!-- Text Banner -->
+  <rect x="30" y="48" width="60" height="10" rx="2" fill="#27ae60" />
+  <text x="60" y="55" font-family="Arial, sans-serif" font-size="6" font-weight="bold" text-anchor="middle" fill="white">GREENFIELD</text>
+  
+  <!-- Stars -->
+  <circle cx="40" cy="15" r="1" fill="white" />
+  <circle cx="80" cy="15" r="1" fill="white" />
+  <circle cx="30" cy="20" r="1" fill="white" />
+  <circle cx="90" cy="20" r="1" fill="white" />
+</svg>

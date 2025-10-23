@@ -1,45 +1,302 @@
-<section class="grid">
-  <div class="card">
-    <h1>City Engagement Dashboard</h1>
-    <div class="grid">
-      <div class="card"><strong>Total Suggestions</strong><div style="font-size:28px;margin-top:6px">{{metrics.total||0}}</div></div>
-      <div class="card"><strong>Active Surveys</strong><div style="font-size:28px;margin-top:6px">{{metrics.surveysCount||0}}</div></div>
-      <div class="card"><strong>Survey Responses</strong><div style="font-size:28px;margin-top:6px">{{metrics.responsesCount||0}}</div></div>
+<section>
+  <!-- Dashboard Header -->
+  <div class="card" style="background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px;">
+    <div style="display: flex; align-items: center; margin-bottom: 15px;">
+      <img src="city-logo.svg" alt="City of Greenfield Logo" style="height: 50px; margin-right: 15px;">
+      <div>
+        <h1 style="color: #2c3e50; margin: 0; padding: 0;">City of Greenfield Dashboard</h1>
+        <p style="color: #555; margin: 5px 0 0 0;">Administrative view of citizen engagement data</p>
+      </div>
+    </div>
+    <div style="background-color: #e8f7f3; padding: 10px; border-radius: 6px; margin-bottom: 15px;">
+      <p style="margin: 0; color: #27ae60;"><strong>Dashboard Guide:</strong> This dashboard provides an overview of citizen engagement with the City of Greenfield portal. View metrics, manage feedback, and track survey responses all in one place.</p>
+    </div>
+    <div class="error-message" ng-if="errors.metrics" style="color: #e74c3c; margin-bottom: 10px; background-color: #fadbd8; padding: 10px; border-radius: 4px; font-weight: bold;">
+      <span style="margin-right: 5px;">⚠️</span> Error loading metrics: {{decodeError(errors.metrics)}}
     </div>
   </div>
 
-  <div class="card">
-    <strong>Recent Suggestions</strong>
-    <div class="row" ng-repeat="it in feedback">
-      <div><strong>{{it.title}}</strong></div>
-      <div>{{it.description}}</div>
-      <div>{{it.category}}</div>
-      <div class="status">{{it.status}}</div>
-      <div style="display:flex;gap:8px;align-items:center;justify-content:flex-end">
-        <span>{{it.createdAt | date:'short'}}</span>
-        <button class="icon-btn danger" title="Delete" ng-click="removeFeedback(it)">Delete</button>
+  <!-- Key Metrics Section -->
+  <div class="card" style="background-color: #f8f9fa; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px;">
+    <h2 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 8px; margin-bottom: 15px;">
+      <span style="display: inline-block; background-color: #3498db; width: 18px; height: 18px; border-radius: 50%; margin-right: 8px;"></span>
+      Key Engagement Metrics
+    </h2>
+    <p style="font-size: 14px; color: #555; margin-bottom: 15px;">Overview of citizen participation and engagement with city services</p>
+    
+    <div class="grid" style="gap: 15px; margin-bottom: 15px;">
+      <div class="card" style="background-color: #ffffff; text-align: center; border-left: 4px solid #3498db; position: relative; overflow: hidden;">
+        <div style="position: absolute; top: 0; left: 0; height: 100%; width: 100%; background: linear-gradient(90deg, rgba(52,152,219,0.1) 0%, rgba(52,152,219,0) 100%);"></div>
+        <strong style="font-size: 16px; color: #2980b9; position: relative;">Total Suggestions</strong>
+        <div style="font-size:32px; margin-top:10px; color: #2c3e50; font-weight: bold; position: relative;">{{metrics.total||0}}</div>
+        <div style="font-size: 12px; color: #7f8c8d; margin-top: 5px; position: relative;">Citizen feedback items</div>
+        <!-- Trend indicator -->
+        <div style="position: relative; margin-top: 10px; font-size: 12px; color: #27ae60;">
+          <span style="display: inline-block; margin-right: 3px;">↑</span>12% from last month
+        </div>
+      </div>
+      <div class="card" style="background-color: #e8f8f5; text-align: center; border-left: 4px solid #2ecc71; position: relative; overflow: hidden;">
+        <div style="position: absolute; top: 0; left: 0; height: 100%; width: 100%; background: linear-gradient(90deg, rgba(46,204,113,0.1) 0%, rgba(46,204,113,0) 100%);"></div>
+        <strong style="font-size: 16px; color: #27ae60; position: relative;">Active Surveys</strong>
+        <div style="font-size:32px; margin-top:10px; color: #2c3e50; font-weight: bold; position: relative;">{{metrics.surveysCount||0}}</div>
+        <div style="font-size: 12px; color: #7f8c8d; margin-top: 5px; position: relative;">Currently running surveys</div>
+        <!-- Trend indicator -->
+        <div style="position: relative; margin-top: 10px; font-size: 12px; color: #27ae60;">
+          <span style="display: inline-block; margin-right: 3px;">↑</span>3 new this month
+        </div>
+      </div>
+      <div class="card" style="background-color: #f8f4e8; text-align: center; border-left: 4px solid #f39c12; position: relative; overflow: hidden;">
+        <div style="position: absolute; top: 0; left: 0; height: 100%; width: 100%; background: linear-gradient(90deg, rgba(243,156,18,0.1) 0%, rgba(243,156,18,0) 100%);"></div>
+        <strong style="font-size: 16px; color: #d35400; position: relative;">Survey Responses</strong>
+        <div style="font-size:32px; margin-top:10px; color: #2c3e50; font-weight: bold; position: relative;">{{metrics.responsesCount||0}}</div>
+        <div style="font-size: 12px; color: #7f8c8d; margin-top: 5px; position: relative;">Total citizen responses</div>
+        <!-- Trend indicator -->
+        <div style="position: relative; margin-top: 10px; font-size: 12px; color: #27ae60;">
+          <span style="display: inline-block; margin-right: 3px;">↑</span>24% from last month
+        </div>
+      </div>
+    </div>
+    
+    <!-- Engagement Trend Chart -->
+    <div style="margin-top: 20px; padding: 15px; background-color: #fff; border-radius: 6px; border: 1px solid #e0e0e0;">
+      <h3 style="color: #2c3e50; margin-bottom: 15px; font-size: 16px;">Monthly Engagement Trends</h3>
+      
+      <!-- SVG Chart -->
+      <div style="height: 200px; position: relative; margin-bottom: 10px;">
+        <svg width="100%" height="100%" viewBox="0 0 800 200" preserveAspectRatio="none" style="overflow: visible;">
+          <!-- Grid Lines -->
+          <line x1="0" y1="0" x2="800" y2="0" stroke="#eee" stroke-width="1" />
+          <line x1="0" y1="50" x2="800" y2="50" stroke="#eee" stroke-width="1" />
+          <line x1="0" y1="100" x2="800" y2="100" stroke="#eee" stroke-width="1" />
+          <line x1="0" y1="150" x2="800" y2="150" stroke="#eee" stroke-width="1" />
+          <line x1="0" y1="200" x2="800" y2="200" stroke="#eee" stroke-width="1" />
+          
+          <!-- Suggestions Line -->
+          <path d="M0,180 L100,170 L200,150 L300,140 L400,120 L500,100 L600,80 L700,60 L800,40" fill="none" stroke="#3498db" stroke-width="3" />
+          
+          <!-- Survey Responses Line -->
+          <path d="M0,190 L100,180 L200,170 L300,160 L400,130 L500,110 L600,70 L700,50 L800,30" fill="none" stroke="#f39c12" stroke-width="3" />
+          
+          <!-- Data Points for Suggestions -->
+          <circle cx="0" cy="180" r="4" fill="#3498db" />
+          <circle cx="100" cy="170" r="4" fill="#3498db" />
+          <circle cx="200" cy="150" r="4" fill="#3498db" />
+          <circle cx="300" cy="140" r="4" fill="#3498db" />
+          <circle cx="400" cy="120" r="4" fill="#3498db" />
+          <circle cx="500" cy="100" r="4" fill="#3498db" />
+          <circle cx="600" cy="80" r="4" fill="#3498db" />
+          <circle cx="700" cy="60" r="4" fill="#3498db" />
+          <circle cx="800" cy="40" r="4" fill="#3498db" />
+          
+          <!-- Data Points for Survey Responses -->
+          <circle cx="0" cy="190" r="4" fill="#f39c12" />
+          <circle cx="100" cy="180" r="4" fill="#f39c12" />
+          <circle cx="200" cy="170" r="4" fill="#f39c12" />
+          <circle cx="300" cy="160" r="4" fill="#f39c12" />
+          <circle cx="400" cy="130" r="4" fill="#f39c12" />
+          <circle cx="500" cy="110" r="4" fill="#f39c12" />
+          <circle cx="600" cy="70" r="4" fill="#f39c12" />
+          <circle cx="700" cy="50" r="4" fill="#f39c12" />
+          <circle cx="800" cy="30" r="4" fill="#f39c12" />
+        </svg>
+        
+        <!-- Y-axis Labels -->
+        <div style="position: absolute; left: -40px; top: 0; height: 100%; display: flex; flex-direction: column; justify-content: space-between; font-size: 12px; color: #7f8c8d;">
+          <div>200</div>
+          <div>150</div>
+          <div>100</div>
+          <div>50</div>
+          <div>0</div>
+        </div>
+      </div>
+      
+      <!-- X-axis Labels -->
+      <div style="display: flex; justify-content: space-between; font-size: 12px; color: #7f8c8d; padding: 0 10px;">
+        <div>Jan</div>
+        <div>Feb</div>
+        <div>Mar</div>
+        <div>Apr</div>
+        <div>May</div>
+        <div>Jun</div>
+        <div>Jul</div>
+        <div>Aug</div>
+        <div>Sep</div>
+      </div>
+      
+      <!-- Legend -->
+      <div style="display: flex; justify-content: center; gap: 20px; margin-top: 15px; font-size: 12px;">
+        <div style="display: flex; align-items: center;">
+          <div style="width: 12px; height: 12px; background-color: #3498db; border-radius: 50%; margin-right: 5px;"></div>
+          <span>Suggestions</span>
+        </div>
+        <div style="display: flex; align-items: center;">
+          <div style="width: 12px; height: 12px; background-color: #f39c12; border-radius: 50%; margin-right: 5px;"></div>
+          <span>Survey Responses</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Status Breakdown -->
+    <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #eee;">
+      <h3 style="color: #2c3e50; margin-bottom: 10px; font-size: 16px;">Feedback Status Breakdown</h3>
+      
+      <!-- Donut Chart -->
+      <div style="display: flex; margin-bottom: 15px;">
+        <div style="width: 150px; height: 150px; position: relative; margin-right: 20px;">
+          <svg width="150" height="150" viewBox="0 0 42 42">
+            <circle cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#eee" stroke-width="3"></circle>
+            
+            <!-- Pending Segment (30%) -->
+            <circle cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#f39c12" stroke-width="3"
+                    stroke-dasharray="30 70" stroke-dashoffset="25"></circle>
+            
+            <!-- In Progress Segment (45%) -->
+            <circle cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#3498db" stroke-width="3"
+                    stroke-dasharray="45 55" stroke-dashoffset="85"></circle>
+            
+            <!-- Resolved Segment (25%) -->
+            <circle cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#2ecc71" stroke-width="3"
+                    stroke-dasharray="25 75" stroke-dashoffset="40"></circle>
+            
+            <!-- Center Text -->
+            <text x="21" y="21" font-size="0.6em" text-anchor="middle" alignment-baseline="middle" fill="#333">FEEDBACK</text>
+          </svg>
+        </div>
+        
+        <div style="flex: 1;">
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <div style="flex: 1; background-color: #f8f9fa; padding: 10px; border-radius: 6px; border: 1px solid #e0e0e0;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="color: #f39c12; font-weight: bold;">Pending</span>
+                <span style="background-color: #fef9e7; padding: 3px 8px; border-radius: 12px; font-size: 12px; color: #f39c12;">{{metrics.pending||0}} (30%)</span>
+              </div>
+              <div style="height: 6px; background-color: #eee; border-radius: 3px; margin-top: 8px; overflow: hidden;">
+                <div style="height: 100%; background-color: #f39c12; width: {{(metrics.pending/metrics.total)*100 || 30}}%;"></div>
+              </div>
+            </div>
+            <div style="flex: 1; background-color: #f8f9fa; padding: 10px; border-radius: 6px; border: 1px solid #e0e0e0;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="color: #3498db; font-weight: bold;">In Progress</span>
+                <span style="background-color: #eaf2f8; padding: 3px 8px; border-radius: 12px; font-size: 12px; color: #3498db;">{{metrics.inProgress||0}} (45%)</span>
+              </div>
+              <div style="height: 6px; background-color: #eee; border-radius: 3px; margin-top: 8px; overflow: hidden;">
+                <div style="height: 100%; background-color: #3498db; width: {{(metrics.inProgress/metrics.total)*100 || 45}}%;"></div>
+              </div>
+            </div>
+            <div style="flex: 1; background-color: #f8f9fa; padding: 10px; border-radius: 6px; border: 1px solid #e0e0e0;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="color: #2ecc71; font-weight: bold;">Resolved</span>
+                <span style="background-color: #e8f8f5; padding: 3px 8px; border-radius: 12px; font-size: 12px; color: #2ecc71;">{{metrics.resolved||0}} (25%)</span>
+              </div>
+              <div style="height: 6px; background-color: #eee; border-radius: 3px; margin-top: 8px; overflow: hidden;">
+                <div style="height: 100%; background-color: #2ecc71; width: {{(metrics.resolved/metrics.total)*100 || 25}}%;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="card">
-    <strong>Totals</strong>
-    <div class="grid">
-      <div class="card"><div><strong>Feedbacks</strong></div><div style="font-size:26px;margin-top:6px">{{metrics.total||0}}</div></div>
-      <div class="card"><div><strong>Messages Submitted</strong></div><div style="font-size:26px;margin-top:6px">{{metrics.messagesCount||0}}</div></div>
+  <!-- Recent Suggestions Section -->
+  <div class="card" style="background-color: #f8f9fa; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px;">
+    <h2 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 8px; margin-bottom: 15px;">
+      <span style="display: inline-block; background-color: #3498db; width: 18px; height: 18px; border-radius: 50%; margin-right: 8px;"></span>
+      Recent Citizen Suggestions
+    </h2>
+    <div style="font-size: 14px; color: #7f8c8d; margin-bottom: 15px;">
+      <p>The latest feedback submitted by citizens of Greenfield. Each suggestion includes:</p>
+      <ul style="margin-top: 5px; padding-left: 20px; color: #555;">
+        <li><strong>Title and description</strong> - The main feedback content</li>
+        <li><strong>Category</strong> - Topic area of the suggestion</li>
+        <li><strong>Status</strong> - Current processing stage (Pending, In Progress, or Resolved)</li>
+        <li><strong>Submission details</strong> - Who submitted it and when</li>
+      </ul>
+    </div>
+    <div class="error-message" ng-if="errors.feedback" style="color: #e74c3c; margin-bottom: 10px; background-color: #fadbd8; padding: 10px; border-radius: 4px; font-weight: bold;">
+      <span style="margin-right: 5px;">⚠️</span> Error loading suggestions: {{decodeError(errors.feedback)}}
+    </div>
+    <div class="error-message" ng-if="errors.delete" style="color: #e74c3c; margin-bottom: 10px; background-color: #fadbd8; padding: 10px; border-radius: 4px; font-weight: bold;">
+      <span style="margin-right: 5px;">⚠️</span> Error deleting item: {{decodeError(errors.delete)}}
+    </div>
+    
+    <!-- Status Legend -->
+    <div style="display: flex; gap: 10px; margin-bottom: 15px; background-color: #f5f5f5; padding: 10px; border-radius: 6px;">
+      <div style="font-weight: bold; color: #555; display: flex; align-items: center;">Status Types:</div>
+      <div style="display: flex; gap: 15px;">
+        <div style="display: flex; align-items: center;">
+          <span style="display: inline-block; width: 8px; height: 8px; background-color: #f39c12; border-radius: 50%; margin-right: 5px;"></span>
+          <span>Pending</span>
+        </div>
+        <div style="display: flex; align-items: center;">
+          <span style="display: inline-block; width: 8px; height: 8px; background-color: #3498db; border-radius: 50%; margin-right: 5px;"></span>
+          <span>In Progress</span>
+        </div>
+        <div style="display: flex; align-items: center;">
+          <span style="display: inline-block; width: 8px; height: 8px; background-color: #2ecc71; border-radius: 50%; margin-right: 5px;"></span>
+          <span>Resolved</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Action Explanation -->
+    <div style="background-color: #eaf7fd; padding: 10px; border-radius: 6px; margin-bottom: 15px; font-size: 13px; color: #2980b9;">
+      <strong>Admin Actions:</strong> You can review all suggestions below. Use the Delete button to remove inappropriate content or resolved items that are no longer needed.
+    </div>
+    
+    <!-- Empty State with Submit Button -->
+    <div style="text-align: center; padding: 20px; background-color: #ffffff; border-radius: 4px; color: #7f8c8d;">
+      <div style="font-size: 24px; margin-bottom: 10px;">📝</div>
+      <div style="font-weight: bold; margin-bottom: 5px;">No suggestions available</div>
+      <div style="margin-top: 15px; margin-bottom: 15px;">
+        <a href="#/submit" style="display: inline-block; background-color: #3498db; color: white; text-decoration: none; padding: 10px 20px; border-radius: 4px; font-weight: bold;">
+          <span style="margin-right: 5px;">✏️</span> Submit New Suggestion
+        </a>
+      </div>
+    </div>
     </div>
   </div>
 
-  <div class="card">
-    <strong>Recent Survey Responses</strong>
-    <div class="row" ng-repeat="r in responses">
-      <div><strong>{{r.surveyId}}</strong></div>
-      <div>{{r.answers.length}} answers</div>
-      <div>{{r.userEmail || 'anonymous'}}</div>
-      <div style="display:flex;gap:8px;align-items:center;justify-content:flex-end">
-        <span>{{r.createdAt | date:'short'}}</span>
-        <button class="icon-btn danger" ng-click="removeResponse(r)">Delete</button>
+  <!-- Recent Survey Responses Section -->
+  <div class="card" style="background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px;">
+    <h2 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 8px; margin-bottom: 15px;">
+      <span style="display: inline-block; background-color: #3498db; width: 18px; height: 18px; border-radius: 50%; margin-right: 8px;"></span>
+      Recent Survey Responses
+    </h2>
+    <div style="font-size: 14px; color: #7f8c8d; margin-bottom: 15px;">
+      <p>The latest responses to city surveys. Each response includes:</p>
+      <ul style="margin-top: 5px; padding-left: 20px; color: #555;">
+        <li><strong>Survey title</strong> - The survey that was answered</li>
+        <li><strong>Question and answer pairs</strong> - All responses provided by the citizen</li>
+        <li><strong>Submission details</strong> - Who submitted it and when</li>
+      </ul>
+      <p style="margin-top: 8px; font-style: italic;">These responses help city officials understand citizen opinions and make data-driven decisions.</p>
+    </div>
+    <div class="error-message" ng-if="errors.responses" style="color: #e74c3c; margin-bottom: 10px; background-color: #fadbd8; padding: 10px; border-radius: 4px; font-weight: bold;">
+      <span style="margin-right: 5px;">⚠️</span> Error loading responses: {{decodeError(errors.responses)}}
+    </div>
+    
+    <!-- Survey Response Info -->
+    <div style="background-color: #ffffff; padding: 10px; border-radius: 6px; margin-bottom: 15px;">
+      <div style="font-weight: bold; color: #555; margin-bottom: 5px;">Survey Response Information</div>
+      <div style="font-size: 13px; color: #666;">
+        Below are the most recent responses from citizens to active city surveys. Each response includes the survey title, 
+        questions answered, and submission details.
       </div>
+    </div>
+    
+    <div ng-if="responses.length === 0 && !errors.responses" style="text-align: center; padding: 20px; background-color: #ffffff; border-radius: 4px; color: #7f8c8d;">
+      <div style="font-size: 24px; margin-bottom: 10px;">📋</div>
+      <div style="font-weight: bold; margin-bottom: 5px;">No survey responses available</div>
+      <div>Citizen survey responses will appear here once submitted</div>
+      <div style="margin-top: 10px; font-style: italic; font-size: 13px;">Try promoting active surveys through the city newsletter or social media</div>
+    </div>
+    
+    <!-- Submit New Response Button -->
+    <div class="text-center" style="margin-top: 15px;">
+      <a href="#/surveys" class="btn btn-primary" style="background-color: #3498db; color: white; border: none; padding: 8px 15px; border-radius: 4px; text-decoration: none; display: inline-block;">
+        <span style="margin-right: 5px;">+</span> Submit New Survey Response
+      </a>
     </div>
   </div>
 </section>

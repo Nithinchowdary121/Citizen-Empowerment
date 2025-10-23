@@ -1,22 +1,49 @@
 <div class="card">
   <h1>Submit Feedback</h1>
-  <form ng-submit="submit()">
+  
+  <!-- Error message -->
+  <div ng-if="error" style="background-color: #fadbd8; color: #e74c3c; padding: 10px; border-radius: 4px; margin-bottom: 15px; font-weight: bold;">
+    <span style="margin-right: 5px;">⚠️</span> {{error}}
+  </div>
+  
+  <!-- Success message -->
+  <div ng-if="success" style="background-color: #d4efdf; color: #27ae60; padding: 10px; border-radius: 4px; margin-bottom: 15px; font-weight: bold;">
+    <span style="margin-right: 5px;">✅</span> {{success}}
+  </div>
+  
+  <form ng-submit="submit()" ng-if="!submitted">
     <label>Title</label>
-    <input ng-model="form.title" required />
+    <input ng-model="form.title" required style="border-color: #3498db; background-color: #ffffff;" />
+    
     <label>Description</label>
-    <textarea ng-model="form.description" rows="5" required></textarea>
+    <textarea ng-model="form.description" rows="5" required style="border-color: #3498db; background-color: #ffffff;"></textarea>
+    
     <label>Category</label>
-    <select ng-model="form.category">
+    <select ng-model="form.category" style="border-color: #3498db; background-color: #ffffff;">
       <option value="services">Public Services</option>
       <option value="policy">Policy</option>
       <option value="infrastructure">Infrastructure</option>
       <option value="other">Other</option>
     </select>
+    
     <label>Email (optional)</label>
-    <input ng-model="form.userEmail" type="email" />
-    <div style="margin-top:14px"><button type="submit">Submit</button></div>
+    <input ng-model="form.userEmail" type="email" style="border-color: #3498db; background-color: #ffffff;" />
+    
+    <div style="margin-top:14px">
+      <button type="submit" style="background-color: #3498db; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold;">
+        <span style="margin-right: 5px;">✏️</span> Submit Suggestion
+      </button>
+    </div>
   </form>
-  <div ng-if="submitted" class="pill" style="margin-top:12px">Submitted!</div>
+  
+  <div ng-if="submitted" style="text-align: center; padding: 20px; margin-top: 15px;">
+    <div style="font-size: 48px; margin-bottom: 10px;">✅</div>
+    <div style="font-weight: bold; font-size: 18px; margin-bottom: 10px;">Thank you for your suggestion!</div>
+    <div style="margin-bottom: 20px;">Your feedback helps improve our city services.</div>
+    <button ng-click="submitted = false; success = ''" style="background-color: #3498db; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">
+      Submit Another Suggestion
+    </button>
+  </div>
 </div>
 
 
