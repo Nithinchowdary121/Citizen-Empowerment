@@ -1,0 +1,3 @@
+@echo off
+echo Starting Angular application on port 4200...
+call ng.cmd serve --port 4200 --disable-host-check --no-interactive

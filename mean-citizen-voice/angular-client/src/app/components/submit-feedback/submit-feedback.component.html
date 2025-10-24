@@ -1,0 +1,44 @@
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <div class="card">
+        <div class="card-header">
+          <h4>Submit Feedback</h4>
+        </div>
+        <div class="card-body">
+          <form (ngSubmit)="submitFeedback()">
+            <div class="mb-3">
+              <label for="title" class="form-label">Title</label>
+              <input type="text" class="form-control" id="title" [(ngModel)]="feedback.title" name="title" required>
+            </div>
+            
+            <div class="mb-3">
+              <label for="category" class="form-label">Category</label>
+              <select class="form-select" id="category" [(ngModel)]="feedback.category" name="category" required>
+                <option value="">-- Select Category --</option>
+                <option value="suggestion">Suggestion</option>
+                <option value="complaint">Complaint</option>
+                <option value="appreciation">Appreciation</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            
+            <div class="mb-3">
+              <label for="description" class="form-label">Description</label>
+              <textarea class="form-control" id="description" rows="5" [(ngModel)]="feedback.description" name="description" required></textarea>
+            </div>
+            
+            <div *ngIf="message" class="alert" [ngClass]="{'alert-success': success, 'alert-danger': !success}">
+              {{ message }}
+            </div>
+            
+            <button type="submit" class="btn btn-primary" [disabled]="isSubmitting">
+              <span *ngIf="isSubmitting">Submitting...</span>
+              <span *ngIf="!isSubmitting">Submit Feedback</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

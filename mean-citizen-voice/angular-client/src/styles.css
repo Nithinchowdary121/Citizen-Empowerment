@@ -1,0 +1,17 @@
+/* You can add global styles to this file, and also import other style files */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.card {
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.btn-primary {
+  background-color: #3f51b5;
+}
+
+.navbar {
+  margin-bottom: 20px;
+}
