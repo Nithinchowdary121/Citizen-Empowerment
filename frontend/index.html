@@ -3,71 +3,26 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>City of Greenfield - Citizen Engagement Portal</title>
+    <title>Citizen Voice (Frontend Dev)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular-route.min.js"></script>
-    <link rel="icon" href="city-logo.svg" type="image/svg+xml">
-    <meta name="description" content="Official citizen engagement portal for the City of Greenfield. Submit feedback, participate in surveys, and help shape our community's future.">
   </head>
   <body ng-app="cvApp">
-    <header>
-      <div class="announcement-bar">
-        <div class="container">
-          <p>City Hall Hours: Mon-Fri 8:00 AM - 5:00 PM | Emergency Services: 911 | Non-Emergency: 555-123-4567</p>
-        </div>
-      </div>
-    </header>
     <nav class="navbar">
-      <div class="brand">
-        <img src="city-logo.svg" alt="City of Greenfield Logo" class="city-logo">
-        <span>City of Greenfield</span>
-      </div>
-      <div class="nav-links">
-        <a href="#/" class="nav">Login</a>
-        <a href="#/home" class="nav">Home</a>
-        <a href="#/dashboard" class="nav">Dashboard</a>
-        <a href="#/submit" class="nav">Submit Feedback</a>
-        <a href="#/surveys" class="nav">Surveys</a>
-        <a href="#/mine" class="nav">My Suggestions</a>
-        <a href="#/admin" class="nav">Admin</a>
-      </div>
+      <div class="brand">Citizen Voice</div>
+      <a href="#/" class="nav">Login</a>
+      <a href="#/home" class="nav">Home</a>
+      <a href="#/dashboard" class="nav">Dashboard</a>
+      <a href="#/submit" class="nav">Submit Feedback</a>
+      <a href="#/surveys" class="nav">Surveys</a>
+      <a href="#/mine" class="nav">My Suggestions</a>
+      <a href="#/admin" class="nav">Admin</a>
     </nav>
     <main ng-view class="container"></main>
-    
-    <footer>
-      <div class="container">
-        <div class="footer-content">
-          <div class="footer-section">
-            <h3>City of Greenfield</h3>
-            <p>123 Main Street<br>Greenfield, ST 12345</p>
-            <p>Phone: 555-123-4567<br>Email: info@greenfield.gov</p>
-          </div>
-          <div class="footer-section">
-            <h3>Quick Links</h3>
-            <ul>
-              <li><a href="#/home">Home</a></li>
-              <li><a href="#/submit">Submit Feedback</a></li>
-              <li><a href="#/surveys">Surveys</a></li>
-            </ul>
-          </div>
-          <div class="footer-section">
-            <h3>Connect With Us</h3>
-            <div class="social-links">
-              <a href="#" aria-label="Facebook">FB</a>
-              <a href="#" aria-label="Twitter">TW</a>
-              <a href="#" aria-label="Instagram">IG</a>
-            </div>
-          </div>
-        </div>
-        <div class="footer-bottom">
-          <p>&copy; 2023 City of Greenfield. All rights reserved.</p>
-        </div>
-      </div>
-    </footer>
 
     <script src="app.js"></script>
   </body>
