@@ -32,9 +32,9 @@
               {{ message }}
             </div>
             
-            <button type="submit" class="btn btn-primary" [disabled]="isSubmitting">
-              <span *ngIf="isSubmitting">Submitting...</span>
-              <span *ngIf="!isSubmitting">Submit Feedback</span>
+            <button type="submit" class="btn btn-primary" [disabled]="submitting">
+              <span *ngIf="submitting">Submitting...</span>
+              <span *ngIf="!submitting">Submit Feedback</span>
             </button>
           </form>
         </div>

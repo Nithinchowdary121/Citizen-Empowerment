@@ -1,87 +1,80 @@
-# Citizen Voice Platform
+# Citizen Voice
 
-A modern web application for citizen feedback, surveys, and community engagement.
+This project is a full-stack application for collecting and managing citizen feedback. It consists of a Node.js backend with Express and MongoDB, and an AngularJS frontend.
 
-## Features
+## Prerequisites
 
-- User authentication (citizen and admin roles)
-- Feedback submission with form validation
-- Survey participation and results visualization
-- Interactive dashboard with data visualization
-- Responsive design for all devices
+Before you begin, ensure you have the following installed:
 
-## Tech Stack
+*   [Node.js](https://nodejs.org/)
+*   [MongoDB](https://www.mongodb.com/try/download/community)
 
-- **Frontend**: AngularJS, HTML5, CSS3, Bootstrap
-- **Backend**: Node.js, Express.js
-- **Database**: MongoDB
+## Getting Started
 
-## Deployment
+Follow these steps to get the application up and running:
 
-This application is configured for deployment on Render.
+### 1. Clone the Repository
 
-### Prerequisites
+```bash
+git clone <repository-url>
+cd <repository-folder>
+```
 
-- Node.js (v14 or higher)
-- MongoDB
-- Git
+### 2. Backend Setup
 
-### Local Development Setup
+1.  Navigate to the `backend` directory:
 
-1. Clone the repository:
-   ```
-   git clone https://github.com/yourusername/citizen-voice.git
-   cd citizen-voice
-   ```
+    ```bash
+    cd backend
+    ```
 
-2. Install backend dependencies:
-   ```
-   cd backend
-   npm install
-   ```
+2.  Install the dependencies:
 
-3. Start the backend server:
-   ```
-   node server.js
-   ```
+    ```bash
+    npm install
+    ```
 
-4. In a new terminal, serve the frontend:
-   ```
-   cd frontend
-   npx http-server -p 8080
-   ```
+3.  Start the backend server:
 
-5. Access the application at `http://localhost:8080`
+    ```bash
+    npm start
+    ```
 
-### Free Deployment on Render
+    The backend will be running on `http://localhost:4002`.
 
-1. Push your code to GitHub
-2. Sign up for a free Render account at [render.com](https://render.com)
-3. From your Render dashboard, click "New" and select "Blueprint"
-4. Connect your GitHub repository
-5. Render will automatically detect the `render.yaml` configuration
-6. For the database, you can use:
-   - MongoDB Atlas free tier (recommended)
-   - Or any other free MongoDB hosting service
-7. Add your MongoDB connection string as an environment variable named `MONGO_URI`
-8. Your app will be deployed on the free tier with no credit card required
+### 3. Frontend Setup
 
-## Environment Variables
+1.  Open a new terminal and navigate to the `frontend` directory:
 
-- `PORT`: Server port (default: 4001)
-- `MONGO_URI`: MongoDB connection string
-- `NODE_ENV`: Environment (development/production)
+    ```bash
+    cd frontend
+    ```
+
+2.  Install the dependencies:
+
+    ```bash
+    npm install
+    ```
+
+3.  Start the frontend development server:
+
+    ```bash
+    npm run dev
+    ```
+
+    The frontend will be running on `http://localhost:5173`.
+
+### 4. Access the Application
+
+Open your browser and navigate to `http://localhost:5173` to use the application.
 
 ## Project Structure
 
-- `/backend`: Server-side code and API endpoints
-- `/frontend`: Client-side application
-  - `/views`: HTML templates
-  - `app.js`: Angular application and controllers
-  - `styles.css`: Global styles
-
-## License
-
-MIT
+*   `backend/`: Contains the Node.js, Express, and MongoDB backend.
+    *   `server.js`: The main server file.
+*   `frontend/`: Contains the AngularJS frontend.
+    *   `app.js`: The main AngularJS application file.
+    *   `index.html`: The main HTML file.
+    *   `views/`: Contains the HTML templates for the different pages.
 
 

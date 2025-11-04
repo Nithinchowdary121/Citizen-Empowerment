@@ -16,14 +16,8 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan('dev'));
 
-// Serve static files from the frontend directory in production
-if (process.env.NODE_ENV === 'production') {
-  const frontendPath = path.join(__dirname, '../frontend');
-  app.use(express.static(frontendPath));
-}
-
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/citizen_voice';
-const PORT = process.env.PORT || 4001;
+const PORT = process.env.PORT || 4002;
 
 // Schemas
 const FeedbackSchema = new mongoose.Schema({
@@ -208,20 +202,6 @@ async function start() {
       ]);
       console.log('Seeded default surveys');
     }
-    // Add catch-all route for SPA in production
-    if (process.env.NODE_ENV === 'production') {
-      app.get('*', (req, res) => {
-        res.sendFile(path.join(__dirname, '../frontend/index.html'));
-      });
-    }
-    
-    // Optimize for Render free tier - prevent idle timeout
-    if (process.env.NODE_ENV === 'production') {
-      setInterval(() => {
-        console.log('Keeping service alive');
-      }, 14 * 60 * 1000); // Ping every 14 minutes to prevent 15-minute idle timeout
-    }
-    
     app.listen(PORT, () => console.log(`API running on http://localhost:${PORT}`));
   } catch (err) {
     console.error('Failed to start:', err);
